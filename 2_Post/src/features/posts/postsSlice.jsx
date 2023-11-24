@@ -8,7 +8,7 @@ const initialState = [
     content: "I've heard good things.",
     date: sub(new Date(), { minutes: 10 }).toISOString(),
     reactions: {
-      thumbUp: 0,
+      thumbsUp: 0,
       wow: 0,
       heart: 0,
       rocket: 0,
