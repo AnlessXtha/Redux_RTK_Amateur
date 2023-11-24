@@ -151,4 +151,80 @@ In summary, the `ReactionButton` component renders a set of reaction buttons bas
 
 ## **Code**
 
+    const orderedPosts = posts
+        .slice()
+        .sort((a, b) => b.date.localeCompare(a.date));
+
 ## **Explained**
+
+1. Shallow Copy: `slice()` is used to create a shallow copy of the `posts` array. It's essential to create a copy before sorting to avoid mutating the original array. The `slice()` method without any arguments creates a copy of the entire array.
+
+2. Sorting: The `sort` method is then applied to the copied array. The sorting function `(a, b) => b.date.localeCompare(a.date)` is used. This function compares the `date` properties of two posts (`a` and `b`). The `localeCompare` method is used for string comparison, and in this case, it's used for comparing the dates.
+
+   - If `b.date` is lexicographically greater than `a.date`, it returns a positive number, indicating that `b` should come before `a` in the sorted array, resulting in a descending order.
+     -If `b.date` is lexicographically less than `a.date`, it returns a negative number, indicating that `a` should come before `b` in the sorted array.
+   - If the dates are equal, `localeCompare` returns 0, and the order remains unchanged.
+
+3. Result: The sorted array is assigned to the variable `orderedPosts`. After this operation, `orderedPosts` contains a new array with the posts sorted in descending order based on their `date` property.
+
+In summary, `orderedPosts` is a new array that represents a sorted version of the original `posts` array, with posts arranged in descending order based on their `date` property. Keep in mind that the original `posts` array remains unchanged due to the use of `slice()` to create a copy.
+
+## **Code**
+
+    const PostAuthor = ({ userId }) => {
+        const users = useSelector(selectAllUsers);
+
+        const author = users.find((user) => user.id === userId);
+
+        return <span>by {author ? author.name : "Unknown author"}</span>;
+    };
+
+## **Explained**
+
+1. Functional Component: `PostAuthor` is a functional component. In React, functional components are a way to define UI components using JavaScript functions.
+
+2. Props: The component takes a prop named `userId`. This prop is used to identify the user for whom the author information is being displayed.
+
+3. useSelector: `useSelector` is a hook provided by the React Redux library. It allows components to extract data from the Redux store. In this case, it's used to get the list of all users from the Redux store.
+
+4. Finding the Author: The `find` method is used on the `users` array to find the user whose `id` matches the provided `userId`. If a matching user is found, the `author` variable will contain that user; otherwise, it will be `undefined`.
+
+5. Rendering: The component renders a `<span>` element with the text "by {author's name}" if an author is found. If no author is found, it renders "Unknown author".
+
+In summary, this component is designed to display the name of the author of a post, based on the provided `userId`. It relies on Redux for state management and assumes that there is a Redux slice with a selector named `selectAllUsers` that provides access to the list of all users in the application.
+
+## **Code**
+
+        import { parseISO, formatDistanceToNowStrict } from "date-fns";
+
+        const TimeAgo = ({ timestamp }) => {
+        let timeAgo = "";
+        if (timestamp) {
+            const date = parseISO(timestamp);
+            const timePeriod = formatDistanceToNowStrict(date);
+            timeAgo = `${timePeriod} ago`;
+        }
+        return (
+            <span title={timestamp}>
+            &nbsp; <i>{timeAgo}</i>
+            </span>
+        );
+        };
+
+        export default TimeAgo;
+
+## **Explained**
+
+This code defines a React functional component called `TimeAgo` that calculates and displays the time difference between a given timestamp and the current time. It utilizes the `date-fns` library, specifically the `parseISO` and `formatDistanceToNowStrict` functions.
+
+1. Imports: The component imports two functions from the `date-fns` library: `parseISO` for parsing ISO-formatted date strings into JavaScript Date objects and `formatDistanceToNowStrict` for calculating the time difference between two dates.
+
+2. Functional Component: `TimeAgo` is a functional component that takes a prop named `timestamp`. This prop is expected to be a string representing a timestamp in ISO format.
+
+3. Parsing and Formatting Time: Inside the component, it checks if a `timestamp` is provided. If yes, it uses `parseISO` to convert the timestamp string into a JavaScript Date object. Then, it calculates the time difference between that date and the current time using `formatDistanceToNowStrict`.
+
+4. Rendering: The component renders a `<span>` element. The `title` attribute of the span contains the original timestamp, which is useful for providing additional information when hovering over the displayed time. The calculated `timeAgo` string is displayed inside an `<i>` (italic) element.
+
+5. Export: The component is exported as the default export of the module, making it available for use in other parts of the application.
+
+In summary, this component is designed to display a human-readable time difference ("time ago") based on a given timestamp, and it uses the `date-fns` library for parsing and formatting dates.

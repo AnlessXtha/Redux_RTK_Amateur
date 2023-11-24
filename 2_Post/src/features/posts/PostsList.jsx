@@ -17,7 +17,7 @@ const PostsList = () => {
     .slice()
     .sort((a, b) => b.date.localeCompare(a.date));
 
-  console.log(orderedPosts);
+  // console.log(orderedPosts);
 
   const renderedPosts = orderedPosts.map((post) => (
     <article key={post.id}>
