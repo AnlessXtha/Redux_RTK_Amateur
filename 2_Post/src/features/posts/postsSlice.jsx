@@ -37,13 +37,14 @@ const postsSlice = createSlice({
       reducer(state, action) {
         state.push(action.payload);
       },
-      prepare(title, content) {
+      prepare(title, content, userId) {
         // prepare callback
         return {
           payload: {
             id: nanoid(),
             title,
             content,
+            userId,
           },
         };
       },
