@@ -6,6 +6,7 @@ import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 
 const PostsExerpt = ({ post }) => {
+  // console.log("count");
   return (
     <article>
       <h3>{post.title}</h3>
