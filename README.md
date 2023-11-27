@@ -1,4 +1,4 @@
-# **Fix the Duplication Glitch**
+# **Fix the Duplication Error in Project 3** (Fixed)
 
 # Code Explained (2_Post)
 
