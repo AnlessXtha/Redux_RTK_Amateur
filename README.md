@@ -230,5 +230,3 @@ This code defines a React functional component called `TimeAgo` that calculates 
 5. Export: The component is exported as the default export of the module, making it available for use in other parts of the application.
 
 In summary, this component is designed to display a human-readable time difference ("time ago") based on a given timestamp, and it uses the `date-fns` library for parsing and formatting dates.
-
-# Code Explained (3)
