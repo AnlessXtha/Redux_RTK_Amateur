@@ -214,7 +214,7 @@ Example:
     const distance = formatDistanceToNow(parsedDate);
     // Output: "in 2 years" (depending on the current date)
 
-In summary, date-fns provides a comprehensive set of functions for handling dates in JavaScript. The sub function is used for subtracting durations, parseISO for parsing ISO 8601 date strings, and formatDistanceToNow for presenting the time difference between a given date and the current date in a human-readable format. These functions collectively make working with dates in JavaScript more straightforward and efficient.
+In summary, `date-fns` provides a comprehensive set of functions for handling dates in JavaScript. The `sub` function is used for subtracting durations, `parseISO` for parsing ISO 8601 date strings, and `formatDistanceToNow` for presenting the time difference between a given date and the current date in a human-readable format. These functions collectively make working with dates in JavaScript more straightforward and efficient.
 
 ## axios
 
