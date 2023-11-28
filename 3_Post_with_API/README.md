@@ -79,6 +79,66 @@
 
 - ## nanoid
 
+  `nanoid` is a small, fast, and secure library for generating unique identifiers (IDs) composed of random characters. It's often used in scenarios where you need a short, URL-safe, and collision-resistant identifier, such as for generating unique keys in databases or creating unique URLs.
+
+  ### Key Features:
+
+  1. Size and Format:
+
+  - `nanoid` generates IDs with a default size of 21 characters.
+  - The IDs are URL-safe, meaning they can be used in URLs without encoding issues.
+
+  2. Randomness:
+
+  - IDs are generated using a combination of timestamp and random characters, providing a good level of unpredictability.
+  - The randomness is achieved using the `crypto` library in Node.js environments and `window.crypto` in browsers.
+
+  3. Collision Resistance:
+
+  - The probability of collision (two IDs being the same) is extremely low due to the combination of timestamp and randomness.
+
+  4. Customization:
+
+  - You can customize the ID size and character set by passing options to the `nanoid` function.
+
+  ### Usage:
+
+  1. Installation:
+
+     npm install nanoid
+
+  2. Basic Usage:
+
+     const { nanoid } = require('nanoid');
+
+     const id = nanoid(); // Generates a default 21-character ID
+
+  3. Customization:
+
+     const customLength = 10;
+     const customAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+     const customId = nanoid(customLength, customAlphabet);
+
+  ### Example:
+
+          const { nanoid } = require('nanoid');
+
+          const id1 = nanoid(); // e.g., "lLkpRMrBqLQqt7b77Lhx6"
+          const id2 = nanoid(10); // e.g., "Sj9rnkX9Ii"
+
+  ### Security Considerations:
+
+  - `nanoid` uses the `crypto` library in Node.js, which is considered secure for cryptographic operations.
+  - In browsers, `window.crypto` is used if available.
+  - The randomness and collision resistance of `nanoid` make it suitable for generating unique identifiers, but it should not be used for cryptographic purposes where high entropy is critical.
+
+  ### Alternatives:
+
+  - While `nanoid` is suitable for many use cases, there are other libraries like `uuid` that generate universally unique identifiers (UUIDs) following the UUID standard.
+
+  In summary, `nanoid` is a lightweight and efficient library for generating unique, URL-safe identifiers with a focus on speed, security, and collision resistance. Its simplicity and customization options make it a popular choice for various applications where unique IDs are needed.
+
 ## date-fns(sub, parseISO, formatDistanceToNow)
 
 ## axios
