@@ -5,7 +5,7 @@ import React from "react";
 const Header = () => {
   return (
     <header className="Header">
-      <h1> Rdux Blog</h1>
+      <h1> Redux Blog</h1>
       <nav>
         <ul>
           <li>
