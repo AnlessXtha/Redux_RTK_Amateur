@@ -508,3 +508,8 @@ Here's a detailed explanation:
     - Reusability: You can import and reuse actions from other slices without modifying the original slice's code.
 
 In summary, `extraReducers` in React/Redux, specifically in the context of `createSlice`, provides a way to handle actions from other slices or external actions. It allows for a clean separation of concerns and promotes modularity in Redux code. Developers can define additional reducer logic outside the main `reducers` field, making it easier to manage and extend Redux slices.
+
+## .unwrap() function
+
+- Throws an error and let us go to the catch block if an error is occurs.
+- It lets the promise either reject or create an error and then represents that and allows us to use try catch logic.
