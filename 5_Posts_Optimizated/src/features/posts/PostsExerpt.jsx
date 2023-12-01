@@ -7,7 +7,7 @@ import ReactionButtons from "./ReactionButtons";
 
 import { Link } from "react-router-dom";
 
-const PostsExerpt = ({ post }) => {
+let PostsExerpt = ({ post }) => {
   // console.log("count");
   return (
     <article>
@@ -22,5 +22,7 @@ const PostsExerpt = ({ post }) => {
     </article>
   );
 };
+
+PostsExerpt = React.memo(PostsExerpt);
 
 export default PostsExerpt;
