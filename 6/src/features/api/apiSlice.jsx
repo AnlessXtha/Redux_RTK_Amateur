@@ -1,0 +1,14 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const apiSlice = createApi({
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500" }),
+  endpoints: (builder) => ({
+    getTodos: builder.query({
+      query: () => "/todos",
+    }),
+  }),
+});
+
+// custom hooks based on methods(getTodos) that we provide
+export const { useGetTodosQuery } = apiSlice;
