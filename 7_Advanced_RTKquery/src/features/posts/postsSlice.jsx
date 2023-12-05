@@ -1,6 +1,6 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
-import { apiSlice } from "../../api/apiSlice";
+import { apiSlice } from "../api/apiSlice";
 
 const postsAdapter = createEntityAdapter({
   sortComparer: (a, b) => b.date.localeCompare(a.date),
@@ -37,8 +37,43 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         ...result.ids.map((id) => ({ type: "Post", id })),
       ],
     }),
+    getPostsByUserId: builder.query({
+      query: (id) => `posts/?userId=${id}`,
+      transformResponse: (responseData) => {
+        let min = 1;
+        const loadedPosts = responseData.map((post) => {
+          if (!post?.date)
+            post.date = sub(new Date(), { minutes: min++ }).toISOString();
+          if (!post?.reactions)
+            post.reactions = {
+              thumbsUp: 0,
+              wow: 0,
+              heart: 0,
+              rocket: 0,
+              coffee: 0,
+            };
+          return post;
+        });
+        return postsAdapter.setAll(initialState, loadedPosts);
+      },
+      providesTags: (result, error, arg) => {
+        console.log(result);
+        return [...result.ids.map((id) => ({ type: "Post", id }))];
+      },
+    }),
   }),
 });
+
+export const { useGetPostsQuery, useGetPostsByUserIdQuery } = extendedApiSlice;
+
+// returns the query result object
+export const selectPostsResult = extendedApiSlice.endpoints.getPosts.select();
+
+// Creates memoized selector
+const selectPostsData = createSelector(
+  selectPostsResult,
+  (postsResult) => postsResult.data // normalized state object with ids & entities
+);
 
 //getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
@@ -46,17 +81,9 @@ export const {
   selectById: selectPostById,
   selectIds: selectPostIds,
   // Pass in a selector that returns the posts slice of state
-} = postsAdapter.getSelectors((state) => state.posts);
-
-export const getPostsStatus = (state) => state.posts.status;
-export const getPostsError = (state) => state.posts.error;
-export const getCount = (state) => state.posts.count;
-
-export const selectPostsByUser = createSelector(
-  [selectAllPosts, (state, userId) => userId],
-  (posts, userId) => posts.filter((post) => post.userId === userId)
+} = postsAdapter.getSelectors(
+  (state) => selectPostsData(state) ?? initialState
 );
 
-export const { increaseCount, reactionAdded } = postsSlice.actions;
-
-export default postsSlice.reducer;
+// '??' = null coslescing operator
+// if the result of left side(selectPostsData(state)) of ?? is null then return the right side(initialState)
