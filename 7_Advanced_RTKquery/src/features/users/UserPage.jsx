@@ -24,6 +24,7 @@ const UserPage = () => {
       <li key={id}>
         <Link to={`/post/${id}`}>{entities[id].title}</Link>
       </li>
+      // entities[id] = Object Lookup
     ));
   } else if (isError) {
     content = <p>{error}</p>;
