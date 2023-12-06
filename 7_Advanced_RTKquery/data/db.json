@@ -263,9 +263,9 @@
     {
       "id": 7,
       "title": "magnam facilis autem",
-      "body": "testing!",
+      "body": "testing again!",
       "userId": 1,
-      "date": "2022-04-27T16:59:02.116Z"
+      "date": "2023-12-06T10:15:01.330Z"
     },
     {
       "userId": 1,
@@ -273,9 +273,9 @@
       "title": "dolorem dolore est ipsam",
       "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae",
       "reactions": {
-        "thumbsUp": 2,
-        "wow": 0,
-        "heart": 0,
+        "thumbsUp": 5,
+        "wow": 1,
+        "heart": 2,
         "rocket": 0,
         "coffee": 0
       }
@@ -833,6 +833,48 @@
       "body": "check one two three",
       "userId": 2,
       "date": "2022-04-26T23:03:52.299Z"
+    },
+    {
+      "title": "Checking Redux devtools",
+      "body": "State > tree > api >(queries, mutations, provided, subscriptions, config,)",
+      "userId": 3,
+      "data": "2023-12-06T10:06:19.820Z",
+      "reactions": {
+        "thumbsUp": 0,
+        "wow": 0,
+        "heart": 0,
+        "rocket": 0,
+        "coffee": 0
+      },
+      "id": 103
+    },
+    {
+      "title": "Top Post",
+      "body": "is it working?",
+      "userId": 3,
+      "data": "2023-12-06T10:16:21.974Z",
+      "reactions": {
+        "thumbsUp": 0,
+        "wow": 0,
+        "heart": 0,
+        "rocket": 0,
+        "coffee": 0
+      },
+      "id": 104
+    },
+    {
+      "title": "English",
+      "body": "dwadsdfes",
+      "userId": 1,
+      "data": "2023-12-06T10:18:00.191Z",
+      "reactions": {
+        "thumbsUp": 0,
+        "wow": 0,
+        "heart": 0,
+        "rocket": 0,
+        "coffee": 0
+      },
+      "id": 105
     }
   ]
 }
