@@ -251,14 +251,7 @@
       "title": "nesciunt quas odio",
       "body": "Hello there!",
       "userId": 1,
-      "date": "2022-04-14T17:46:43.450Z",
-      "reactions": {
-        "thumbsUp": 5,
-        "wow": 0,
-        "heart": 0,
-        "rocket": 0,
-        "coffee": 0
-      }
+      "date": "2022-04-14T17:46:43.450Z"
     },
     {
       "id": 6,
@@ -272,14 +265,7 @@
       "title": "magnam facilis autem",
       "body": "testing!",
       "userId": 1,
-      "date": "2022-04-27T16:59:02.116Z",
-      "reactions": {
-        "thumbsUp": 0,
-        "wow": 0,
-        "heart": 0,
-        "rocket": 0,
-        "coffee": 12
-      }
+      "date": "2022-04-27T16:59:02.116Z"
     },
     {
       "userId": 1,
@@ -287,11 +273,11 @@
       "title": "dolorem dolore est ipsam",
       "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae",
       "reactions": {
-        "thumbsUp": 4,
+        "thumbsUp": 2,
         "wow": 0,
         "heart": 0,
         "rocket": 0,
-        "coffee": 6
+        "coffee": 0
       }
     },
     {
@@ -839,13 +825,6 @@
       "body": "Hey",
       "userId": 1,
       "date": "2022-04-13T21:43:05.630Z",
-      "reactions": {
-        "thumbsUp": 0,
-        "wow": 0,
-        "heart": 0,
-        "rocket": 0,
-        "coffee": 0
-      },
       "id": 101
     },
     {
