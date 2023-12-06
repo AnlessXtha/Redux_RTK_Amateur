@@ -4,8 +4,6 @@ The code describes a fully functional blog implemented using Redux Toolkit and R
 
 > [!NOTE]
 > Fully functional blog that has integrated normalized cache state and it has some optimistic updates.
-
-> [!IN_SHORT]
 > Made using Redux toolkit and RTK Query.
 
 ## Top post not appearing at the top(fix the error)
