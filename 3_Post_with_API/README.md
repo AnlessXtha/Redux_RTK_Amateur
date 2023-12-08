@@ -513,3 +513,271 @@ In summary, `extraReducers` in React/Redux, specifically in the context of `crea
 
 - Throws an error and let us go to the catch block if an error is occurs.
 - It lets the promise either reject or create an error and then represents that and allows us to use try catch logic.
+
+# Code Explained
+
+## Code
+
+import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { sub } from "date-fns";
+import axios from "axios";
+
+const POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
+
+const initialState = {
+posts: [],
+status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
+error: null,
+};
+
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+const response = await axios.get(POSTS_URL);
+return [...response.data];
+});
+
+export const addNewPost = createAsyncThunk(
+"posts/addNewPost",
+async (initialPost) => {
+try {
+const response = await axios.post(POSTS_URL, initialPost);
+return response.data;
+} catch (err) {
+return err.message;
+}
+}
+);
+
+const postsSlice = createSlice({
+name: "posts",
+initialState,
+reducers: {
+postAdded: {
+reducer(state, action) {
+state.posts.push(action.payload);
+},
+prepare(title, content, userId) {
+return {
+payload: {
+id: nanoid(),
+title,
+content,
+date: new Date().toISOString(),
+userId,
+reactions: {
+thumbsUp: 0,
+wow: 0,
+heart: 0,
+rocket: 0,
+coffee: 0,
+},
+},
+};
+},
+},
+reactionAdded(state, action) {
+const { postId, reaction } = action.payload;
+const existingPost = state.posts.find((post) => post.id === postId);
+if (existingPost) {
+existingPost.reactions[reaction]++;
+}
+},
+},
+
+extraReducers(builder) {
+builder
+.addCase(fetchPosts.pending, (state, action) => {
+state.status = "loading";
+})
+.addCase(fetchPosts.fulfilled, (state, action) => {
+state.status = "succeeded";
+//Adding data and reactions
+let min = 1;
+const loadedPosts = action.payload.map((post) => {
+post.date = sub(new Date(), { minutes: min++ }).toISOString();
+post.reactions = {
+thumbsUp: 0,
+wow: 0,
+heart: 0,
+rocket: 0,
+coffee: 0,
+};
+return post;
+});
+// Add any fetched posts to the array
+state.posts = state.posts.concat(loadedPosts);
+})
+.addCase(fetchPosts.rejected, (state, action) => {
+state.status = "failed";
+state.error = action.error.message;
+})
+.addCase(addNewPost.fulfilled, (state, action) => {
+// Fix for API post IDs:
+// Creating sortedPosts & assigning the id
+// would not be needed if the fake API
+// returned accurate new post IDs
+const sortedPosts = state.posts.sort((a, b) => {
+if (a.id > b.id) return 1;
+if (a.id < b.id) return -1;
+return 0;
+});
+action.payload.id = sortedPosts[sortedPosts.length - 1].id + 1;
+//End fix for fake API post IDs
+
+        action.payload.userId = Number(action.payload.userId);
+        action.payload.date = new Date().toISOString();
+        action.payload.reactions = {
+          thumbsUp: 0,
+          wow: 0,
+          heart: 0,
+          rocket: 0,
+          coffee: 0,
+        };
+        console.log(action.payload);
+        state.posts.push(action.payload);
+      });
+
+},
+});
+
+export const selectAllPosts = (state) => state.posts.posts;
+export const getPostsStatus = (state) => state.posts.status;
+export const getPostsError = (state) => state.posts.error;
+
+export const { postAdded, reactionAdded } = postsSlice.actions;
+
+export default postsSlice.reducer;
+
+## Explained
+
+This code defines a Redux slice for managing a list of posts. It uses the `createSlice` and `createAsyncThunk` utilities from the `@reduxjs/toolkit` library to simplify the process of creating Redux actions, reducers, and handling asynchronous operations.
+
+Let's break down the code:
+
+1. **Import Statements:**
+
+   ```javascript
+   import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+   import { sub } from "date-fns";
+   import axios from "axios";
+   ```
+
+   The code imports necessary functions and libraries. `createSlice` and `createAsyncThunk` are from the Redux Toolkit, and `sub` is a function from the `date-fns` library for date manipulation. `axios` is a popular library for making HTTP requests.
+
+2. **Constants:**
+
+   ```javascript
+   const POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
+   ```
+
+   It defines the URL of a JSONPlaceholder endpoint representing posts.
+
+3. **Initial State:**
+
+   ```javascript
+   const initialState = {
+     posts: [],
+     status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
+     error: null,
+   };
+   ```
+
+   It sets the initial state for the Redux slice, including an empty array for posts, a status field indicating the current state of asynchronous operations, and an error field to store error messages.
+
+4. **Async Thunks:**
+
+   ```javascript
+   export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+     // ...
+   });
+
+   export const addNewPost = createAsyncThunk(
+     "posts/addNewPost",
+     async (initialPost) => {
+       // ...
+     }
+   );
+   ```
+
+   Two asynchronous thunks are defined using `createAsyncThunk`. `fetchPosts` fetches posts from the specified URL, and `addNewPost` adds a new post by making a POST request to the same URL.
+
+5. **Slice Creation:**
+
+   ```javascript
+   const postsSlice = createSlice({
+     name: "posts",
+     initialState,
+     reducers: {
+       // ...
+     },
+     extraReducers(builder) {
+       // ...
+     },
+   });
+   ```
+
+   The `createSlice` function is used to create a Redux slice named "posts." It defines an initial state, reducers, and extra reducers for handling asynchronous actions.
+
+6. **Reducers:**
+
+   ```javascript
+   const postsSlice = createSlice({
+     // ...
+     reducers: {
+       postAdded: {
+         reducer(state, action) {
+           state.posts.push(action.payload);
+         },
+         prepare(title, content, userId) {
+           // ...
+         },
+       },
+       reactionAdded(state, action) {
+         // ...
+       },
+     },
+     // ...
+   });
+   ```
+
+   The `reducers` field contains two reducers: `postAdded` and `reactionAdded`. `postAdded` adds a new post to the state, and `reactionAdded` updates the reaction count of a specific post.
+
+7. **Extra Reducers:**
+
+   ```javascript
+   extraReducers(builder) {
+     builder
+       .addCase(fetchPosts.pending, (state, action) => {
+         // ...
+       })
+       .addCase(fetchPosts.fulfilled, (state, action) => {
+         // ...
+       })
+       .addCase(fetchPosts.rejected, (state, action) => {
+         // ...
+       })
+       .addCase(addNewPost.fulfilled, (state, action) => {
+         // ...
+       });
+   }
+   ```
+
+   The `extraReducers` field handles additional actions like `fetchPosts.pending`, `fetchPosts.fulfilled`, `fetchPosts.rejected`, and `addNewPost.fulfilled`. It updates the state based on the status of these asynchronous operations.
+
+8. **Selectors:**
+
+   ```javascript
+   export const selectAllPosts = (state) => state.posts.posts;
+   export const getPostsStatus = (state) => state.posts.status;
+   export const getPostsError = (state) => state.posts.error;
+   ```
+
+   Selector functions are defined to access specific parts of the state.
+
+9. **Exports:**
+
+   ```javascript
+   export const { postAdded, reactionAdded } = postsSlice.actions;
+   export default postsSlice.reducer;
+   ```
+
+   The code exports the action creators (`postAdded` and `reactionAdded`) and the reducer created by the `createSlice` function.
